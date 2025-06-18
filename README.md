@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Portfolio – Built with Next.js
 
-## Getting Started
+Welcome! This is my personal portfolio site, built using the modern Next.js App Router, TypeScript, and Tailwind CSS. It showcases some of my recent projects, skills, and contact info – all cleanly packaged with performance, accessibility, and maintainability in mind.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Language:** TypeScript
+- **Tooling:** ESLint, Prettier, Husky, lint-staged
+- **Deployment:** [Vercel](https://vercel.com/)
+
+---
+
+## Project Structure
+
+```
+src/
+  app/             # Next.js App Router pages/layouts
+  components/      # Reusable UI components
+  data/            # Static data (e.g. projects list)
+  lib/             # Utility functions
+  styles/          # Global Tailwind config or extra CSS
+  types/           # TypeScript types
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Setup & Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Clone the repo and install dependencies:
 
-## Learn More
+```
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+Run the development server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Visit `http://localhost:3000` in your browser.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Linting, Formatting & Git Hooks
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project uses:
+
+- **ESLint** for catching issues
+- **Prettier** for formatting
+- **Husky + lint-staged** for pre-commit checks
+
+Manual commands:
+
+```
+npm run lint
+npm run format
+```
+
+---
+
+## Live Demo - To do...
+
+Vercel link? Maybe?
+
+---
+
+## Screenshots - To do...
+
+---
+
+## 📫 Contact
+
+---
+
+## 📄 License
+
+This project is open source under the MIT License.
