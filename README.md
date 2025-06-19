@@ -10,6 +10,7 @@ Welcome! This is my personal portfolio site, built using the modern Next.js App 
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 - **Language:** TypeScript
 - **Tooling:** ESLint, Prettier, Husky, lint-staged
+- **Iconography:** [Feather](https://feathericons.com/)
 - **Deployment:** [Vercel](https://vercel.com/)
 
 ---
