@@ -3,12 +3,14 @@ import Icon from '@/components/icons/Icon';
 import Photos from '@/components/Photos';
 
 const About: React.FC = () => (
-  <section className="min-h-screen snap-start flex items-center px-6">
+  <section id="about" className="min-h-screen snap-start flex items-center px-6">
     <div className="max-w-5xl mx-auto w-full space-y-12">
       <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
         <div className="md:col-span-3 text-base text-gray-700 space-y-6">
           <div>
-            <h2 className="text-3xl font-bold border-b-2 border-gray-300 pb-2 w-fit">About Me</h2>
+            <h2 className="text-3xl text-primary font-bold border-b-2 border-gray-300 pb-2 w-fit">
+              About Me
+            </h2>
           </div>
           <p>
             Hello, my name is Emily! I&apos;m someone who finds joy in figuring things out— whether

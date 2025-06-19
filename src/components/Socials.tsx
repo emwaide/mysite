@@ -1,28 +1,26 @@
 import React from 'react';
 import Icon from '@/components/icons/Icon';
 
-interface Site {
-  name: 'GitHub' | 'Linkedin' | 'Instagram' | 'Email';
-  url: string;
-}
+const Socials: React.FC<SocialsProps> = () => {
+  const socials = [
+    { name: 'GitHub', url: 'https://github.com/emwaide' },
+    { name: 'Instagram', url: 'https://www.instagram.com/emwaide' },
+    { name: 'Linkedin', url: 'https://www.linkedin.com/in/bchiang7' },
+    { name: 'Email', url: 'mailto:aosknglsnga' },
+  ];
 
-interface SocialsProps {
-  sites: Site[];
-}
-
-const Socials: React.FC<SocialsProps> = ({ sites }) => {
   return (
-    <div className="flex flex-wrap gap-4 py-6">
-      {sites.map(site => (
+    <div className="flex flex-wrap gap-4">
+      {socials.map(social => (
         <a
-          key={site.name}
-          href={site.url}
+          key={social.name}
+          href={social.url}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`Visit ${site.name} profile`}
+          aria-label={`Visit ${social.name} profile`}
           className="group block w-8 h-8 text-muted-foreground hover:text-rose transition-colors"
         >
-          <Icon name={site.name} />
+          <Icon name={social.name} />
         </a>
       ))}
     </div>

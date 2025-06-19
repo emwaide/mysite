@@ -3,8 +3,9 @@ import IconLinkedin from '@/components/icons/IconLinkedin';
 import IconInstagram from '@/components/icons/IconInstagram';
 import IconGitHub from '@/components/icons/IconGitHub';
 import IconEmail from '@/components/icons/IconEmail';
+import IconBoat from '@/components/icons/IconBoat';
 
-type IconName = 'Linkedin' | 'Instagram' | 'GitHub' | 'Email';
+type IconName = 'Linkedin' | 'Instagram' | 'GitHub' | 'Email' | 'Boat';
 
 interface IconProps {
   name: IconName;
@@ -16,6 +17,7 @@ const Icon: React.FC<IconProps> = ({ name }) => {
     Instagram: <IconInstagram />,
     GitHub: <IconGitHub />,
     Email: <IconEmail />,
+    Boat: <IconBoat />,
   };
 
   return (

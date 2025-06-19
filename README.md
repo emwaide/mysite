@@ -1,6 +1,6 @@
 # My Portfolio – Built with Next.js
 
-Welcome! This is my personal portfolio site, built using the modern Next.js App Router, TypeScript, and Tailwind CSS. It showcases some of my recent projects, skills, and contact info – all cleanly packaged with performance, accessibility, and maintainability in mind.
+Welcome! This is my personal portfolio site, built using the modern Next.js App Router, TypeScript, and Tailwind CSS. It showcases some of my recent projects, skills, and contact info – all created with performance, accessibility, and maintainability in mind.
 
 ---
 
@@ -72,7 +72,13 @@ Vercel link? Maybe?
 
 ---
 
-## Screenshots - To do...
+## Design
+
+For the design, I didn't really have much in mind, so I took inspiration from a whole host of different places. [This article from hostinger was really useful](https://www.hostinger.com/uk/tutorials/web-developer-portfolio) - it gave me a lot to work with and some inspiration.
+
+I created a colour pallette, and created some mock ups, and off I went.
+
+![Colour Palette](public/images/Colour_Palette.png)
 
 ---
 
