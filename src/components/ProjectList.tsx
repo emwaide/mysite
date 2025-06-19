@@ -1,8 +1,9 @@
+import React from 'react';
 import { projects } from '@/data/projects';
 
-const ProjectList: React.FC = () => {
-  return (
-    <section id="projects" className="min-h-screen snap-start flex items-center px-6">
+const ProjectList: React.FC = () => (
+  <section className="min-h-screen snap-start flex items-center px-6 bg-aqua text-white">
+    <div className="max-w-5xl mx-auto w-full space-y-12">
       <div className="max-w-5xl mx-auto w-full space-y-12">
         <h2 className="text-3xl font-bold border-b-2 border-gray-300 pb-2 w-fit">Projects</h2>
 
@@ -32,8 +33,8 @@ const ProjectList: React.FC = () => {
           ))}
         </ul>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default ProjectList;

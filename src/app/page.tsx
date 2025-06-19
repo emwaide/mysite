@@ -5,7 +5,7 @@ import Contact from '@/components/Contact';
 
 export default function HomePage() {
   return (
-    <main className="mx-auto px-6 space-y-32 text-neutral-800 flex flex-col">
+    <main className="h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth">
       <Hero />
       <About />
       <ProjectList />
