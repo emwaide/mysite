@@ -5,9 +5,9 @@ import Icon from '@/components/icons/Icon';
 const Hero: React.FC = () => (
   <section
     id="home"
-    className="min-h-screen snap-start relative px-6 flex items-center justify-center"
+    className="min-h-screen lg:snap-start relative px-6 flex items-center justify-center"
   >
-    <nav className="fixed top-0 right-0 p-6 space-x-4 z-50">
+    <nav className="absolute top-0 p-6 space-x-4 z-50 md:fixed md:top -0 md:right-0">
       <a href="#about" className="text-primary hover:underline">
         About
       </a>
@@ -18,7 +18,7 @@ const Hero: React.FC = () => (
         Contact
       </a>
     </nav>
-    <div className="flex flex-col text-left space-y-4 z-10">
+    <div className="flex flex-col text-left space-y-4 mt-16 z-10 pb-24">
       <h1 className="text-5xl md:text-6xl text-primary font-bold">Welcome!</h1>
       <h2 className="text-4xl md:text-5xl text-accent leading-tight">
         I&apos;m Emily, a Software Engineer.

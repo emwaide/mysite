@@ -8,7 +8,7 @@ const images = [
 ];
 
 const PhotoGallery: React.FC = () => (
-  <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mt-8">
+  <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
     {images.map((img, index) => (
       <div key={index} className="aspect-square overflow-hidden shadow-md">
         <Image

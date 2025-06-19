@@ -11,4 +11,16 @@ export const projects = [
     link: '/markdown',
     tags: ['Next.js', 'LocalStorage', 'MDX'],
   },
+  {
+    name: 'Something New',
+    description: 'Lightweight markdown editor with autosave and preview.',
+    link: '/markdown',
+    tags: ['Next.js', 'LocalStorage', 'MDX'],
+  },
+  {
+    name: 'Something Again',
+    description: 'Lightweight markdown editor with autosave and preview.',
+    link: '/markdown',
+    tags: ['Next.js', 'LocalStorage', 'MDX'],
+  },
 ];

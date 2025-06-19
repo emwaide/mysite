@@ -3,10 +3,10 @@ import Icon from '@/components/icons/Icon';
 import Photos from '@/components/Photos';
 
 const About: React.FC = () => (
-  <section id="about" className="min-h-screen snap-start flex items-center px-6">
-    <div className="max-w-5xl mx-auto w-full space-y-12">
+  <section id="about" className="min-h-screen lg:snap-start flex items-center px-6">
+    <div className="max-w-5xl mx-auto w-full space-y-12 mt-8">
       <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
-        <div className="md:col-span-3 text-base text-gray-700 space-y-6">
+        <div className="md:col-span-2 text-base text-gray-700 space-y-6">
           <div>
             <h2 className="text-3xl text-primary font-bold border-b-2 border-gray-300 pb-2 w-fit">
               About Me
@@ -40,8 +40,7 @@ const About: React.FC = () => (
             My README
           </a>
         </div>
-
-        <div className="md:col-span-2 flex items-start h-full">
+        <div className="md:col-span-3 flex items-start h-full">
           <div className="relative w-full h-full">
             <Photos />
           </div>
