@@ -19,17 +19,19 @@ export function scoreSailingConditions({
   const windKnots = forecast.current.wind / 1.852;
   const windPass = windKnots >= 9.7 && windKnots <= 38.8;
   if (windPass) points++;
-  details.push({ label: 'Wind', value: `${windKnots.toFixed(1)} kn`, passed: windPass });
+  details.push({ label: 'Wind', value: `${windKnots.toFixed(1)} knots`, passed: windPass });
 
-  const wavePass = marine.wave[0] < 1.5;
-  if (wavePass) points++;
-  details.push({ label: 'Wave Height', value: `${marine.wave[0].toFixed(1)} m`, passed: wavePass });
+  const wavePass = marine.current.wave < 1.5;
+  details.push({
+    label: 'Wave Height',
+    value: `${marine.current.wave.toFixed(1)} metres`,
+    passed: wavePass,
+  });
 
-  const swellPass = marine.swell[0] < 1.5;
-  if (swellPass) points++;
+  const swellPass = marine.current.swell < 1.5;
   details.push({
     label: 'Swell Height',
-    value: `${marine.swell[0].toFixed(1)} m`,
+    value: `${marine.current.swell.toFixed(1)} metres`,
     passed: swellPass,
   });
 
@@ -47,6 +49,14 @@ export function scoreSailingConditions({
     label: 'Temperature',
     value: `${forecast.current.temp.toFixed(1)}°C`,
     passed: tempPass,
+  });
+
+  const visibilityPass = forecast.current.visibility >= 8;
+  if (visibilityPass) points++;
+  details.push({
+    label: 'Visibility',
+    value: `${forecast.current.visibility.toFixed(1)}metres`,
+    passed: visibilityPass,
   });
 
   const verdict =
