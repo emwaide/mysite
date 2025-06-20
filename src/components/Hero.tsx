@@ -36,7 +36,8 @@ const Hero: React.FC = () => (
     </div>
 
     {/* Waves & Boat */}
-    <div className="absolute bottom-0 left-0 w-full h-20 z-0 overflow-hidden">
+
+    <div aria-hidden="true" className="absolute bottom-0 left-0 w-full h-20 z-0 overflow-hidden">
       <div className="absolute bottom-0 w-[200%] h-10 bg-primary opacity-80 animate-wave" />
       <div className="absolute bottom-0 w-[200%] h-10 bg-primary opacity-60 animate-wave" />
       <div className="absolute bottom-7 left-[-3rem] w-12 h-12 animate-sail z-10">
