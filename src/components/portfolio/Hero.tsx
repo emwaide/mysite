@@ -1,5 +1,5 @@
 import React from 'react';
-import Socials from '@/components/Socials';
+import Socials from '@/components/portfolio/Socials';
 import Icon from '@/components/icons/Icon';
 
 const Hero: React.FC = () => (

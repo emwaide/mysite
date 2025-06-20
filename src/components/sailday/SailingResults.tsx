@@ -1,4 +1,4 @@
-import type { ScoreDetail } from '../utils/scoreSailingConditions';
+import type { ScoreDetail } from '../../utils/scoreSailingConditions';
 
 type Props = {
   verdict: string | null;

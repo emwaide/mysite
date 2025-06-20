@@ -1,5 +1,5 @@
 import React from 'react';
-import Socials from '@/components/Socials';
+import Socials from '@/components/portfolio/Socials';
 
 const Contact: React.FC = () => (
   <section id="contact" className="min-h-screen lg:snap-start flex items-center px-6">

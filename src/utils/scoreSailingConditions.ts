@@ -16,7 +16,7 @@ export function scoreSailingConditions({
   let points = 0;
   const details: ScoreDetail[] = [];
 
-  const windKnots = forecast.current.wind * 1.94384;
+  const windKnots = forecast.current.wind / 1.852;
   const windPass = windKnots >= 9.7 && windKnots <= 38.8;
   if (windPass) points++;
   details.push({ label: 'Wind', value: `${windKnots.toFixed(1)} kn`, passed: windPass });

@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '@/components/icons/Icon';
-import Photos from '@/components/Photos';
+import Photos from '@/components/portfolio/Photos';
 
 const About: React.FC = () => (
   <section id="about" className="min-h-screen lg:snap-start flex items-center px-6">
@@ -47,6 +47,17 @@ const About: React.FC = () => (
         </div>
       </div>
     </div>
+    {/* <div aria-hidden="true" className="absolute left-0 overflow-hidden">
+      <div aria-hidden="true" className="absolute left-0 ml-5 w-10 h-10 text-primary animate-leftwalk">
+        <Icon name="Footprint" />
+      </div>
+      <div
+        aria-hidden="true"
+        className="transform scale-x-[-1] absolute left-0 ml-10 w-10 h-10 text-primary animate-rightwalk"
+      >
+        <Icon name="Footprint" />
+      </div>
+    </div> */}
   </section>
 );
 
