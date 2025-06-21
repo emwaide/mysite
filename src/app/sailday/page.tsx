@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import SailingForm from '@/components/sailday/SailingForm';
 import { fetchMarineData } from '@/utils/fetchMarine';
 import { fetchForecastData } from '@/utils/fetchForecast';
 import { scoreSailingConditions, ScoreDetail } from '@/utils/scoreSailingConditions';
 import ForecastGraph from '@/components/sailday/ForecastGraph';
-import Icon from '@/components/icons/Icon';
 import { ForecastData, MarineData, WeatherVariableKey } from '@/types/weather';
 import 'leaflet/dist/leaflet.css';
 
@@ -20,7 +19,9 @@ export default function SaildayPage() {
   const [selectedVariable, setSelectedVariable] = useState<WeatherVariableKey | null>(null);
   const [forecastData, setForecastData] = useState<ForecastData | null>(null);
   const [marineData, setMarineData] = useState<MarineData | null>(null);
-  const resultsRef = useRef<HTMLDivElement>(null);
+  const scrollAnchorRef = useRef<HTMLDivElement>(null);
+  const [hasMapLoaded, setHasMapLoaded] = useState(false);
+  const [isMapLoading, setIsMapLoading] = useState(false);
 
   const combinedData = {
     ...(forecastData ?? {}),
@@ -33,7 +34,6 @@ export default function SaildayPage() {
 
     try {
       const hoursToCheck = 24;
-
       const [marineData, forecastData] = await Promise.all([
         fetchMarineData(latitude, longitude, hoursToCheck),
         fetchForecastData(latitude, longitude, hoursToCheck),
@@ -47,7 +47,11 @@ export default function SaildayPage() {
       setHasSubmitted(true);
 
       setTimeout(() => {
-        resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
+        scrollAnchorRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        scrollAnchorRef.current?.focus({ preventScroll: true });
       }, 200);
     } catch (err) {
       console.error(err);
@@ -67,24 +71,55 @@ export default function SaildayPage() {
 
   const normaliseLabel = (label: string) => label.toLowerCase().replace(/\s+/g, '');
   const LocationMap = dynamic(() => import('@/components/sailday/LocationMap'), { ssr: false });
+  const previousCoords = useRef({ lat: '', lon: '' });
+
+  const memoisedMap = useMemo(() => {
+    if (!lat || !lon) return null;
+    return <LocationMap lat={lat} lon={lon} />;
+  }, [lat, lon]);
+
+  useEffect(() => {
+    if (lat && lon && (lat !== previousCoords.current.lat || lon !== previousCoords.current.lon)) {
+      previousCoords.current = { lat, lon };
+      setIsMapLoading(true);
+      const timeout = setTimeout(() => {
+        setIsMapLoading(false);
+        setHasMapLoaded(true);
+      }, 1500);
+      return () => clearTimeout(timeout);
+    }
+  }, [lat, lon]);
 
   return (
-    <main className="h-screen overflow-y-scroll snap-y snap-mandatory bg-primary text-white overscroll-none">
+    <main className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory bg-primary text-white overscroll-none">
       {/* Hero Section */}
       <section className="min-h-screen snap-start flex flex-col justify-center text-white px-6 py-12">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-widest uppercase mb-4">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div className="space-y-4">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-widest uppercase">
               SAILDAY
             </h1>
             <p className="text-xl sm:text-2xl text-stone-300 tracking-widest font-mono border-b-2 border-white pb-4 inline-block">
               Your first mate for fair-weather sailing.
             </p>
+            <section
+              aria-label="Sailing location map"
+              className="rounded-md overflow-hidden shadow bg-stone-100 h-64 flex items-center justify-center"
+            >
+              {!lat || !lon ? (
+                <div className="text-primary/60 text-center text-sm sm:text-base font-mono italic px-4">
+                  Choose a location to preview the map
+                </div>
+              ) : isMapLoading && !hasMapLoaded ? (
+                <div className="w-full h-full animate-pulse bg-gradient-to-br from-stone-200 to-stone-300 flex items-center justify-center">
+                  <span className="text-stone-400 font-mono">Loading map...</span>
+                </div>
+              ) : (
+                memoisedMap
+              )}
+            </section>
           </div>
           <div className="w-full max-w-md mx-auto bg-white rounded-xl shadow px-8 py-10">
-            <h2 id="sailing-form-heading" className="sr-only">
-              Enter location to check sailing conditions
-            </h2>
             <SailingForm
               lat={lat}
               lon={lon}
@@ -92,58 +127,67 @@ export default function SaildayPage() {
               setLon={setLon}
               loading={loading}
               onSubmit={checkConditions}
+              idPrefix="hero"
             />
           </div>
         </div>
       </section>
+
       {/* Results Section */}
       {hasSubmitted && (
         <section
-          ref={resultsRef}
-          className="min-h-screen snap-start w-full overflow-y-auto flex flex-col items-center justify-center px-6 py-12 bg-primary text-white"
+          ref={scrollAnchorRef}
+          tabIndex={-1}
+          className="min-h-screen snap-start w-full overflow-y-auto flex flex-col items-center justify-center px-6 py-12 pb-12 bg-primary text-white"
           aria-labelledby="conditions-heading"
         >
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Sidebar */}
-            <aside className="space-y-6">
-              <div className="bg-white text-black rounded-xl shadow px-6 py-8">
-                <SailingForm
-                  lat={lat}
-                  lon={lon}
-                  setLat={setLat}
-                  setLon={setLon}
-                  loading={loading}
-                  onSubmit={checkConditions}
-                />
-              </div>
-              {lat && lon && (
-                <div className="h-64 rounded-md overflow-hidden shadow" aria-hidden="true">
-                  <LocationMap lat={lat} lon={lon} />
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8 w-full">
+            {/* Sidebar: Form + Map */}
+            <aside className="hidden lg:block order-2 lg:order-1 space-y-6">
+              <section aria-labelledby="sidebar-form-heading">
+                <div className="bg-white text-black rounded-xl shadow px-6 py-8">
+                  <SailingForm
+                    lat={lat}
+                    lon={lon}
+                    setLat={setLat}
+                    setLon={setLon}
+                    loading={loading}
+                    onSubmit={checkConditions}
+                    idPrefix="sidebar"
+                  />
                 </div>
-              )}
+              </section>
+              <section
+                aria-label="Sailing location map"
+                className="rounded-md overflow-hidden shadow bg-stone-100 h-64 flex items-center justify-center"
+              >
+                {!lat || !lon ? (
+                  <div className="text-primary/60 text-center text-sm sm:text-base font-mono italic px-4">
+                    Choose a location to preview the map
+                  </div>
+                ) : isMapLoading && !hasMapLoaded ? (
+                  <div className="w-full h-full animate-pulse bg-gradient-to-br from-stone-200 to-stone-300 flex items-center justify-center">
+                    <span className="text-stone-400 font-mono">Loading map...</span>
+                  </div>
+                ) : (
+                  memoisedMap
+                )}
+              </section>
             </aside>
 
-            {/* Main Content */}
-            <div className="lg:col-span-3 space-y-8">
-              <header className="flex flex-wrap justify-between items-end gap-4">
-                <div>
-                  <h2
-                    id="conditions-heading"
-                    className="text-3xl sm:text-4xl font-bold tracking-widest uppercase"
-                  >
-                    SAILDAY
-                  </h2>
-                  <p className="text-lg sm:text-xl font-mono tracking-widest">
-                    Your first mate for fair-weather sailing.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  className="h-10 text-white hover:text-aqua focus-visible:outline-aqua focus-visible:ring-4 focus-visible:ring-aqua"
-                  aria-label="Adjust settings"
+            {/* Main Content: Heading, Forecast Cards, Graph */}
+            <div className="order-3 lg:order-2 lg:col-span-3 space-y-8">
+              {/* Heading */}
+              <header>
+                <h2
+                  id="conditions-heading"
+                  className="text-3xl sm:text-4xl font-bold tracking-widest uppercase"
                 >
-                  <Icon name="Settings" />
-                </button>
+                  SAILDAY
+                </h2>
+                <p className="text-lg sm:text-xl font-mono tracking-widest">
+                  Your first mate for fair-weather sailing.
+                </p>
               </header>
 
               {/* Forecast Summary Cards */}
@@ -190,7 +234,7 @@ export default function SaildayPage() {
                         aria-label={`${label}: ${value}`}
                       >
                         <div className="flex items-center space-x-4">
-                          <div className="text-3xl" aria-hidden="true">
+                          <div className="text-3xl text-black" aria-hidden="true">
                             {icon}
                           </div>
                           <div>
@@ -215,25 +259,25 @@ export default function SaildayPage() {
                 )}
               </section>
 
-              {/* Graph Section */}
-              {/* <div className="pt-6"> */}
+              {/* Forecast Graph */}
               {lat && lon && forecastData && selectedVariable ? (
-                <div role="img" aria-labelledby="graph-desc">
-                  <p id="graph-desc" className="sr-only">
-                    Graph showing {selectedVariable} forecast for the next 12 hours.
-                  </p>
+                <section className="pb-24 sm:pb-12" aria-labelledby="graph-desc" role="img">
+                  <h2 id="graph-desc" className="sr-only">
+                    Graph showing {selectedVariable} forecast for the next 12 hours
+                  </h2>
                   <ForecastGraph
                     data={combinedData[selectedVariable] ?? []}
                     timestamps={forecastData?.timestamps ?? marineData?.timestamps ?? []}
                     label={selectedVariable ?? ''}
                   />
-                </div>
+                </section>
               ) : (
-                <p className="text-white italic text-center">
-                  Please select a variable to view the forecast graph.
-                </p>
+                <section className="pb-24 sm:pb-12">
+                  <div className="flex justify-center h-80 items-center bg-accent-200 bg-center bg-cover text-center text-white text-center text-sm sm:text-base font-mono italic px-4">
+                    Select weather item to show graph
+                  </div>
+                </section>
               )}
-              {/* </div> */}
             </div>
           </div>
         </section>

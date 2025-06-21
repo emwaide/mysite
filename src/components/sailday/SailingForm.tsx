@@ -9,9 +9,18 @@ type Props = {
   setLon: (val: string) => void;
   loading: boolean;
   onSubmit: (lat: number, lon: number) => void;
+  idPrefix?: string; // optional ID prefix to prevent duplicate IDs
 };
 
-export default function SailingForm({ lat, lon, setLat, setLon, loading, onSubmit }: Props) {
+export default function SailingForm({
+  lat,
+  lon,
+  setLat,
+  setLon,
+  loading,
+  onSubmit,
+  idPrefix = 'sailing', // fallback prefix
+}: Props) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(parseFloat(lat), parseFloat(lon));
@@ -35,15 +44,26 @@ export default function SailingForm({ lat, lon, setLat, setLon, loading, onSubmi
     );
   };
 
+  // Ensure unique IDs per form instance
+  const latitudeId = `${idPrefix}-latitude`;
+  const longitudeId = `${idPrefix}-longitude`;
+
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4 text-primary">
+    <form
+      onSubmit={handleSubmit}
+      className="w-full max-w-sm space-y-4 text-primary"
+      aria-labelledby={`${idPrefix}-form-heading`}
+    >
+      <h2 id={`${idPrefix}-form-heading`} className="sr-only">
+        Check sailing conditions
+      </h2>
       <div>
-        <label htmlFor="latitude" className="block font-mono text-primary-800 mb-1">
+        <label htmlFor={latitudeId} className="block font-mono text-primary-800 mb-1">
           Latitude
         </label>
         <input
-          id="latitude"
-          name="latitude"
+          id={latitudeId}
+          name={latitudeId}
           type="number"
           step="any"
           min="-90"
@@ -56,12 +76,12 @@ export default function SailingForm({ lat, lon, setLat, setLon, loading, onSubmi
       </div>
 
       <div>
-        <label htmlFor="longitude" className="block font-medium font-mono text-primary-800 mb-1">
+        <label htmlFor={longitudeId} className="block font-medium font-mono text-primary-800 mb-1">
           Longitude
         </label>
         <input
-          id="longitude"
-          name="longitude"
+          id={longitudeId}
+          name={longitudeId}
           type="number"
           step="any"
           min="-180"
@@ -76,9 +96,10 @@ export default function SailingForm({ lat, lon, setLat, setLon, loading, onSubmi
       <button
         type="button"
         onClick={useMyLocation}
+        aria-label="Use my current location"
         className="w-full flex items-center justify-center gap-2 mt-10 py-3 border-2 rounded font-semibold transition text-accent border-accent hover:bg-accent hover:text-white focus:outline-none focus:ring-2 focus:ring-aqua"
       >
-        <Icon name={'Navigation'} />
+        <Icon name="Navigation" />
         Use My Location
       </button>
 
@@ -94,15 +115,16 @@ export default function SailingForm({ lat, lon, setLat, setLon, loading, onSubmi
               : 'Check sailing conditions'
         }
         className={`w-full flex items-center justify-center gap-2 mt-10 py-3 border-2 rounded font-semibold transition
-            ${
-              loading || !lat || !lon
-                ? 'bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed'
-                : 'text-accent border-accent hover:bg-accent hover:text-white focus:outline-none focus:ring-2 focus:ring-aqua'
-            }
+          ${
+            loading || !lat || !lon
+              ? 'bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed'
+              : 'text-accent border-accent hover:bg-accent hover:text-white focus:outline-none focus:ring-2 focus:ring-aqua'
+          }
         `}
       >
         Check Conditions
       </button>
+
       <a
         href="https://open-meteo.com"
         target="_blank"
