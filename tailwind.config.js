@@ -23,7 +23,7 @@ module.exports = {
         accent: withOpacity('#1C6AA8'),
         aqua: withOpacity('#1FB99B'),
         sand: withOpacity('#D2BFA3'),
-        rose: withOpacity('#C8636F'),
+        rose: withOpacity('#BD4553'),
       },
       keyframes: {
         sail: {
