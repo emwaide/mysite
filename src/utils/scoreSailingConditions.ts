@@ -12,26 +12,29 @@ export function scoreSailingConditions({
 }: {
   marine: MarineData;
   forecast: ForecastData;
-}): { score: number; verdict: string; details: ScoreDetail[] } {
+}): { score: number; details: ScoreDetail[] } {
   let points = 0;
   const details: ScoreDetail[] = [];
 
-  const windKnots = forecast.current.wind / 1.852;
-  const windPass = windKnots >= 9.7 && windKnots <= 38.8;
+  const windPass = forecast.current.wind >= 9.7 && forecast.current.wind <= 38.8;
   if (windPass) points++;
-  details.push({ label: 'Wind', value: `${windKnots.toFixed(1)} knots`, passed: windPass });
+  details.push({
+    label: 'Wind',
+    value: `${forecast.current.wind.toFixed(1)} knots`,
+    passed: windPass,
+  });
 
-  const wavePass = marine.current.wave < 1.5;
+  const wavePass = marine.current.waveheight < 1.5;
   details.push({
     label: 'Wave Height',
-    value: `${marine.current.wave.toFixed(1)} metres`,
+    value: `${marine.current.waveheight.toFixed(1)} metres`,
     passed: wavePass,
   });
 
-  const swellPass = marine.current.swell < 1.5;
+  const swellPass = marine.current.swellheight < 1.5;
   details.push({
     label: 'Swell Height',
-    value: `${marine.current.swell.toFixed(1)} metres`,
+    value: `${marine.current.swellheight.toFixed(1)} metres`,
     passed: swellPass,
   });
 
@@ -43,11 +46,11 @@ export function scoreSailingConditions({
     passed: rainPass,
   });
 
-  const tempPass = forecast.current.temp >= 8;
+  const tempPass = forecast.current.temperature >= 8;
   if (tempPass) points++;
   details.push({
     label: 'Temperature',
-    value: `${forecast.current.temp.toFixed(1)}°C`,
+    value: `${forecast.current.temperature.toFixed(1)}°C`,
     passed: tempPass,
   });
 
@@ -55,16 +58,9 @@ export function scoreSailingConditions({
   if (visibilityPass) points++;
   details.push({
     label: 'Visibility',
-    value: `${forecast.current.visibility.toFixed(1)}metres`,
+    value: `${forecast.current.visibility.toFixed(1)} miles`,
     passed: visibilityPass,
   });
 
-  const verdict =
-    points >= 5
-      ? '🟢 Good sailing conditions.'
-      : points >= 3
-        ? '🟡 Caution: check details before going out.'
-        : '🔴 Not safe to sail based on current forecast.';
-
-  return { score: points, verdict, details };
+  return { score: points, details };
 }

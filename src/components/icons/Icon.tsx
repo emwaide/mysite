@@ -14,6 +14,7 @@ import IconWind from '@/components/icons/IconWind';
 import IconUmbrella from '@/components/icons/IconUmbrella';
 import IconFootprint from '@/components/icons/IconFootprint';
 import IconNavigation from './IconNavigation';
+import IconSettings from '@/components/icons/IconSettings';
 
 const iconMap = {
   Linkedin: IconLinkedin,
@@ -29,6 +30,7 @@ const iconMap = {
   Umbrella: IconUmbrella,
   Footprint: IconFootprint,
   Navigation: IconNavigation,
+  Settings: IconSettings,
 } as const;
 
 export type IconName = keyof typeof iconMap;
