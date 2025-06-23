@@ -7,7 +7,7 @@ Welcome! This is my personal portfolio site, built using the modern Next.js App 
 ## Tech Stack
 
 - **Framework:** [Next.js](https://nextjs.org/) (App Router)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/), [Google Design](https://developers.google.com/identity/branding-guidelines)
 - **Language:** TypeScript
 - **Tooling:** ESLint, Prettier, Husky, lint-staged
 - **Iconography:** [Feather](https://feathericons.com/)

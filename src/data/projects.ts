@@ -6,21 +6,9 @@ export const projects = [
     tags: ['React', 'API', 'Tailwind', 'Next.js'],
   },
   {
-    name: 'Markdown Notes',
-    description: 'Lightweight markdown editor with autosave and preview.',
-    link: '/markdown',
-    tags: ['Next.js', 'LocalStorage', 'MDX'],
-  },
-  {
-    name: 'Something New',
-    description: 'Lightweight markdown editor with autosave and preview.',
-    link: '/markdown',
-    tags: ['Next.js', 'LocalStorage', 'MDX'],
-  },
-  {
-    name: 'Something Again',
-    description: 'Lightweight markdown editor with autosave and preview.',
-    link: '/markdown',
-    tags: ['Next.js', 'LocalStorage', 'MDX'],
+    name: 'Authentication',
+    description: 'Creating a login page, using NextJs',
+    link: '/login',
+    tags: ['NextAuth.js', 'OAuth', 'Tailwind', 'Next.js'],
   },
 ];

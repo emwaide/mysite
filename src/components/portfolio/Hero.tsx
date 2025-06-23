@@ -1,22 +1,29 @@
 import React from 'react';
 import Socials from '@/components/portfolio/Socials';
 import Icon from '@/components/icons/Icon';
+import { Session } from 'next-auth';
+import AuthButtons from '@/components/login/AuthButtons';
 
-const Hero: React.FC = () => (
+type Props = {
+  session: Session | null;
+};
+
+const Hero: React.FC<Props> = ({ session }) => (
   <section
     id="home"
     className="min-h-screen lg:snap-start relative px-6 flex items-center justify-center"
   >
-    <nav className="absolute top-0 p-6 space-x-4 z-50 md:fixed md:top -0 md:right-0">
-      <a href="#about" className="text-primary hover:underline">
+    <nav className="absolute top-0 p-6 space-x-4 z-50 md:fixed md:top-0 md:right-0">
+      <a href="#about" className="text-primary hover:underline text-sm">
         About
       </a>
-      <a href="#projects" className="text-primary hover:underline">
+      <a href="#projects" className="text-primary hover:underline text-sm">
         Projects
       </a>
-      <a href="#contact" className="text-primary hover:underline">
+      <a href="#contact" className="text-primary hover:underline text-sm">
         Contact
       </a>
+      <AuthButtons userName={session?.user?.name} />
     </nav>
     <div className="flex flex-col text-left space-y-4 mt-16 z-10 pb-24">
       <h1 className="text-5xl md:text-6xl text-primary font-bold">Welcome!</h1>

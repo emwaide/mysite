@@ -9,7 +9,7 @@ export async function fetchForecastData(
   const params = {
     latitude,
     longitude,
-    hourly: ['wind_speed_10m', 'precipitation', 'temperature_80m', 'visibility'],
+    hourly: ['wind_speed_10m', 'precipitation', 'temperature_80m', 'visibility', 'wind_speed_10m'],
     timezone: 'auto',
   };
 
