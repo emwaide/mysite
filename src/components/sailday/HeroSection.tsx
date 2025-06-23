@@ -1,14 +1,15 @@
-import type { FC } from 'react';
 import SailingForm from './SailingForm';
 
 interface HeroSectionProps {
-  lat: number | null;
-  lon: number | null;
-  setLat: (lat: number) => void;
-  setLon: (lon: number) => void;
+  lat: string;
+  lon: string;
+  setLat: (lat: string) => void;
+  setLon: (lon: string) => void;
   loading: boolean;
   onSubmit: () => void;
-  LocationMap: FC<{ lat: number; lon: number }>;
+  LocationMap: React.FC<{ lat: number; lon: number }>;
+  isMapLoading: boolean;
+  hasMapLoaded: boolean;
 }
 
 export default function HeroSection({
@@ -19,8 +20,13 @@ export default function HeroSection({
   loading,
   onSubmit,
   LocationMap,
+  isMapLoading,
+  hasMapLoaded,
 }: HeroSectionProps) {
-  const memoisedMap = lat && lon ? <LocationMap lat={lat} lon={lon} /> : null;
+  const parsedLat = parseFloat(lat);
+  const parsedLon = parseFloat(lon);
+  const memoisedMap =
+    !isNaN(parsedLat) && !isNaN(parsedLon) ? <LocationMap lat={parsedLat} lon={parsedLon} /> : null;
 
   return (
     <section className="min-h-screen snap-start flex flex-col justify-center text-white px-6 py-12">

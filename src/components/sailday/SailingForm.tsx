@@ -22,6 +22,12 @@ export default function SailingForm({
   idPrefix = 'sailing', // fallback prefix
 }: Props) {
   const handleSubmit = (e: React.FormEvent) => {
+    const parsedLat = parseFloat(lat);
+    const parsedLon = parseFloat(lon);
+    if (isNaN(parsedLat) || isNaN(parsedLon)) {
+      alert('Please enter valid coordinates.');
+      return;
+    }
     e.preventDefault();
     onSubmit(parseFloat(lat), parseFloat(lon));
   };

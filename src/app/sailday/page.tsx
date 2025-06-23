@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import dynamic from 'next/dynamic';
 import { fetchMarineData } from '@/utils/fetchMarine';
 import { fetchForecastData } from '@/utils/fetchForecast';
 import { scoreSailingConditions, ScoreDetail } from '@/utils/scoreSailingConditions';
@@ -11,18 +10,19 @@ import HeroSection from '@/components/sailday/HeroSection';
 import Sidebar from '@/components/sailday/Sidebar';
 import ForecastSummary from '@/components/sailday/ForecastSummary';
 import ForecastChartSection from '@/components/sailday/ForecastChart';
-
-const LocationMap = dynamic(() => import('@/components/sailday/LocationMap'), { ssr: false });
+import LocationMap from '@/components/sailday/LocationMapWrapper';
 
 export default function SaildayPage() {
-  const [lat, setLat] = useState('');
-  const [lon, setLon] = useState('');
+  const [lat, setLat] = useState<string>('');
+  const [lon, setLon] = useState<string>('');
   const [details, setDetails] = useState<ScoreDetail[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [selectedVariable, setSelectedVariable] = useState<WeatherVariableKey | null>(null);
   const [forecastData, setForecastData] = useState<ForecastData | null>(null);
   const [marineData, setMarineData] = useState<MarineData | null>(null);
+  const [isMapLoading, setIsMapLoading] = useState(false);
+  const [hasMapLoaded, setHasMapLoaded] = useState(false);
   const scrollAnchorRef = useRef<HTMLDivElement>(null);
 
   const checkConditions = async (latitude: number, longitude: number) => {
@@ -30,10 +30,9 @@ export default function SaildayPage() {
     setDetails(null);
 
     try {
-      const hoursToCheck = 24;
       const [marine, forecast] = await Promise.all([
-        fetchMarineData(latitude, longitude, hoursToCheck),
-        fetchForecastData(latitude, longitude, hoursToCheck),
+        fetchMarineData(latitude, longitude, 24),
+        fetchForecastData(latitude, longitude, 24),
       ]);
 
       const result = scoreSailingConditions({ marine, forecast });
@@ -44,6 +43,8 @@ export default function SaildayPage() {
       setHasSubmitted(true);
 
       setTimeout(() => {
+        setHasMapLoaded(true);
+        setIsMapLoading(false);
         scrollAnchorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         scrollAnchorRef.current?.focus({ preventScroll: true });
       }, 200);
@@ -62,8 +63,10 @@ export default function SaildayPage() {
         setLat={setLat}
         setLon={setLon}
         loading={loading}
-        onSubmit={checkConditions}
+        onSubmit={() => checkConditions(parseFloat(lat), parseFloat(lon))}
         LocationMap={LocationMap}
+        isMapLoading={isMapLoading}
+        hasMapLoaded={hasMapLoaded}
       />
 
       {hasSubmitted && (
@@ -77,11 +80,13 @@ export default function SaildayPage() {
             <Sidebar
               lat={lat}
               lon={lon}
-              setLat={setLat}
-              setLon={setLon}
+              setLat={val => setLat(val.toString())}
+              setLon={val => setLon(val.toString())}
               loading={loading}
-              onSubmit={checkConditions}
+              onSubmit={() => checkConditions(parseFloat(lat), parseFloat(lon))}
               LocationMap={LocationMap}
+              isMapLoading={isMapLoading}
+              hasMapLoaded={hasMapLoaded}
             />
 
             <div className="order-3 lg:order-2 lg:col-span-3 space-y-8">

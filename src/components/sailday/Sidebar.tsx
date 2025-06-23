@@ -1,14 +1,13 @@
-import type { FC } from 'react';
 import SailingForm from './SailingForm';
 
 interface SidebarProps {
-  lat: number | null;
-  lon: number | null;
-  setLat: (lat: number) => void;
-  setLon: (lon: number) => void;
+  lat: string;
+  lon: string;
+  setLat: (lat: string) => void;
+  setLon: (lon: string) => void;
   loading: boolean;
   onSubmit: () => void;
-  LocationMap: FC<{ lat: number; lon: number }>;
+  LocationMap: React.FC<{ lat: number; lon: number }>;
   isMapLoading: boolean;
   hasMapLoaded: boolean;
 }
@@ -24,7 +23,10 @@ export default function Sidebar({
   isMapLoading,
   hasMapLoaded,
 }: SidebarProps) {
-  const memoisedMap = lat && lon ? <LocationMap lat={lat} lon={lon} /> : null;
+  const latNum = parseFloat(lat);
+  const lonNum = parseFloat(lon);
+  const memoisedMap =
+    !isNaN(latNum) && !isNaN(lonNum) ? <LocationMap lat={latNum} lon={lonNum} /> : null;
 
   return (
     <aside className="hidden lg:block order-2 lg:order-1 space-y-6">

@@ -9,24 +9,23 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-// Fix default icon issue in Leaflet
-delete (L.Icon.Default.prototype as unknown as { _getIconUrl: unknown })._getIconUrl;
-
+// @ts-expect-error – Leaflet typings don't expose _getIconUrl
+delete (L.Icon.Default.prototype as { _getIconUrl: unknown })._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x.src,
   iconUrl: markerIcon.src,
   shadowUrl: markerShadow.src,
 });
 
-type Props = {
-  lat: string;
-  lon: string;
+export type LocationMapProps = {
+  lat: number;
+  lon: number;
 };
 
-export default function LocationMap({ lat, lon }: Props) {
-  if (!lat || !lon || isNaN(Number(lat)) || isNaN(Number(lon))) return null;
+export default function LocationMap({ lat, lon }: LocationMapProps) {
+  if (!lat || !lon || isNaN(lat) || isNaN(lon)) return null;
 
-  const position: LatLngExpression = [parseFloat(lat), parseFloat(lon)];
+  const position: LatLngExpression = [lat, lon];
 
   return (
     <div className="h-64 w-full rounded-md overflow-hidden shadow">
